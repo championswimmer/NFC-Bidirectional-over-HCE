@@ -1,1 +1,1 @@
-include ':CardEmulator', ':CardReader', ':libhce'
+include ':CardEmulator', ':CardReader', ':libHCE'
