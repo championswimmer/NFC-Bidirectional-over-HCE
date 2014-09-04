@@ -118,7 +118,4 @@ public class CardReader implements NfcAdapter.ReaderCallback {
         }
     }
 
-
-
-
 }

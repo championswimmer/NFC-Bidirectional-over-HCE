@@ -9,32 +9,32 @@ import edu.dce.nfc.libhce.reader.CardReader;
 /**
  * Created by championswimmer on 5/9/14.
  */
-public class ReaderMode {
+public class ReaderModeActivity extends Activity {
 
-    public static final String TAG = "libHCE-ReaderMode";
+    public static final String TAG = "libHCE-ReaderModeActivity";
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
     private CardReader mCardReader;
 
-    public ReaderMode(CardReader.ReadCallBack ac) {
+    public ReaderModeActivity(CardReader.ReadCallBack ac) {
         mCardReader = new CardReader(ac);
     }
 
-    public void enableReaderMode(Activity act) {
+    private void enableReaderMode() {
         Log.i(TAG, "Enabling reader mode");
 
-        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(act);
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
         if (nfc != null) {
-            nfc.enableReaderMode(act, mCardReader, READER_FLAGS, null);
+            nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
         }
     }
 
-    private void disableReaderMode(Activity act) {
+    private void disableReaderMode() {
         Log.i(TAG, "Disabling reader mode");
-        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(act);
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
         if (nfc != null) {
-            nfc.disableReaderMode(act);
+            nfc.disableReaderMode(this);
         }
     }
 }
