@@ -29,4 +29,12 @@ public class ReaderMode {
             nfc.enableReaderMode(act, mCardReader, READER_FLAGS, null);
         }
     }
+
+    private void disableReaderMode(Activity act) {
+        Log.i(TAG, "Disabling reader mode");
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(act);
+        if (nfc != null) {
+            nfc.disableReaderMode(act);
+        }
+    }
 }
