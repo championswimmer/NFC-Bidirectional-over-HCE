@@ -5,8 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import edu.dce.nfc.libhce.ReaderModeActivity;
+import edu.dce.nfc.libhce.reader.CardReader;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends ReaderModeActivity {
+
+    public MainActivity(CardReader.ReadCallBack ac) {
+        super(ac);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +21,17 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        enableReaderMode();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        disableReaderMode();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -21,7 +21,7 @@ public class ReaderModeActivity extends Activity {
         mCardReader = new CardReader(ac);
     }
 
-    private void enableReaderMode() {
+    protected void enableReaderMode() {
         Log.i(TAG, "Enabling reader mode");
 
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
@@ -30,7 +30,7 @@ public class ReaderModeActivity extends Activity {
         }
     }
 
-    private void disableReaderMode() {
+    protected void disableReaderMode() {
         Log.i(TAG, "Disabling reader mode");
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
         if (nfc != null) {
