@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CardEmulator/CardEmulator.iml" filepath="$PROJECT_DIR$/CardEmulator/CardEmulator.iml" />
       <module fileurl="file://$PROJECT_DIR$/CardReader/CardReader.iml" filepath="$PROJECT_DIR$/CardReader/CardReader.iml" />
       <module fileurl="file://$PROJECT_DIR$/NFC-Bidirectional-over-HCE.iml" filepath="$PROJECT_DIR$/NFC-Bidirectional-over-HCE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libhce/libhce.iml" filepath="$PROJECT_DIR$/libhce/libhce.iml" />
     </modules>
   </component>
 </project>
