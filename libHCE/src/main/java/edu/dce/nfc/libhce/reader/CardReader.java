@@ -27,10 +27,6 @@ public class CardReader implements NfcAdapter.ReaderCallback {
 // foreground mode before it becomes invalid (e.g. during onPause() or onStop()).
     private WeakReference<ReadCallBack> mAccountCallback;
 
-    public interface ReadCallBack {
-        public void onDataReceived(String account);
-    }
-
     public CardReader(ReadCallBack readCallBack) {
         mAccountCallback = new WeakReference<ReadCallBack>(readCallBack);
     }
@@ -116,6 +112,10 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 Log.e(TAG, "Error communicating with card: " + e.toString());
             }
         }
+    }
+
+    public interface ReadCallBack {
+        public void onDataReceived(String account);
     }
 
 }
