@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "edu.dce.nfc.libhce"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
