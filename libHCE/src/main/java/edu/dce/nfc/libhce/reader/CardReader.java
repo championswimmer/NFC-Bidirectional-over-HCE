@@ -69,7 +69,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 int resultLength = result.length;
                 byte[] statusWord = {result[resultLength - 2], result[resultLength - 1]};
                 byte[] payload = Arrays.copyOf(result, resultLength - 2);
-                if (Arrays.equals(Headers.SELECT_OK_SW, statusWord)) {
+                if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWord)) {
                     // The remote NFC device will immediately respond with its stored account number
                     String accountNumber = new String(payload, "UTF-8");
                     Log.i(TAG, "Received: " + accountNumber);
@@ -84,7 +84,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                             Log.i(TAG, "Received length : " + resultLength);
                             byte[] statusWordNew = {result[resultLength - 2], result[resultLength - 1]};
                             payload = Arrays.copyOf(result, resultLength - 2);
-                            if (Arrays.equals(Headers.SELECT_OK_SW, statusWordNew)) {
+                            if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
                                 gotData = new String(payload, "UTF-8");
                                 Log.i(TAG, "Received: " + gotData);
                                 finalGotData = finalGotData + gotData;

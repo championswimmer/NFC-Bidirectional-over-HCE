@@ -13,17 +13,23 @@ public class Headers {
      * ISO-DEP command HEADER for selecting an AID.
      * Format: [Class | Instruction | Parameter 1 | Parameter 2]
      */
-    public static final String SELECT_APDU_HEADER = "00A40400";
+    public static final String HEADER_SELECT = "00A40400";
 
     /**
      * ISO-DEP command HEADER for selecting an AID.
      * Format: [Class | Instruction | Parameter 1 | Parameter 2]
      */
-    public static final String GET_DATA_APDU_HEADER = "00CA0000";
+    public static final String HEADER_GETDATA = "00CA0000";
+
     /**
      * "OK" status word sent in response to SELECT AID command (0x9000)
      */
-    public static final byte[] SELECT_OK_SW = {(byte) 0x90, (byte) 0x00};
+    public static final byte[] RESPONSE_SELECT_OK = {(byte) 0x90, (byte) 0x00};
+
+    /**
+     * "FINAL" status word sent in response to GETDATA command (0x9006)
+     */
+    public static final byte[] RESPONSE_GETDATA_FINAL = {(byte) 0x90, (byte) 0x06};
 
     /**
      * Build APDU for SELECT AID command. This command indicates which service a reader is
@@ -34,7 +40,7 @@ public class Headers {
      */
     public static byte[] BuildSelectApdu(String aid) {
         // Format: [CLASS | INSTRUCTION | PARAMETER 1 | PARAMETER 2 | LENGTH | DATA]
-        return Utils.HexStringToByteArray(Headers.SELECT_APDU_HEADER + String.format("%02X", aid.length() / 2) + aid);
+        return Utils.HexStringToByteArray(Headers.HEADER_SELECT + String.format("%02X", aid.length() / 2) + aid);
     }
 
     /**
@@ -44,7 +50,7 @@ public class Headers {
      */
     public static byte[] BuildGetDataApdu() {
         // Format: [CLASS | INSTRUCTION | PARAMETER 1 | PARAMETER 2 | LENGTH | DATA]
-        return Utils.HexStringToByteArray(Headers.GET_DATA_APDU_HEADER + "0FFF");
+        return Utils.HexStringToByteArray(Headers.HEADER_GETDATA + "0FFF");
     }
 
 
