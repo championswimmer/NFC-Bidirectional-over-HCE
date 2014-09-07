@@ -6,9 +6,17 @@ There are following three modules in this project
 2. **[CardEmulatorApp](#CardEmulatorApp)** - App with example implementation of emulator    
 3. **[CardReaderApp](#CardReaderApp)** - App with example implementation of the reader    
 
-##libHCE    
+A completely bi-directional data channel is possible to establish, 
+and packets of 255 bytes (64kbytes, if both devices so support) 
+can be interchanged between the devices. But due to the nature of 
+implementation of the NFC stack, only the device that is behaving 
+as the reader can intiate the connection.
 
-##CardEmulatorApp    
 
-##CardReaderApp    
+
+###libHCE    
+
+###CardEmulatorApp    
+
+###CardReaderApp    
 

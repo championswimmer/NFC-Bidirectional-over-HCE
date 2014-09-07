@@ -18,6 +18,12 @@ import edu.dce.nfc.libhce.common.Utils;
 public class CardReader implements NfcAdapter.ReaderCallback {
     private static final String TAG = "LoyaltyCardReader";
 
+    int mMaxTransceiveLength;
+    boolean mExtendedApduSupported;
+    int mTimeout;
+
+    TransceiveResult mResult;
+
 
     String gotData = "", finalGotData = "";
 
@@ -51,6 +57,9 @@ public class CardReader implements NfcAdapter.ReaderCallback {
             try {
                 // Connect to the remote NFC device
                 isoDep.connect();
+                mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
+                mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
+                mTimeout = isoDep.getTimeout();
                 Log.i(TAG, "Timeout = " + isoDep.getTimeout());
                 isoDep.setTimeout(3600);
                 Log.i(TAG, "Timeout = " + isoDep.getTimeout());
@@ -62,51 +71,35 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 byte[] selCommand = Headers.BuildSelectApdu(Headers.SAMPLE_LOYALTY_CARD_AID);
                 // Send command to remote device
                 Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(selCommand));
-                byte[] result = isoDep.transceive(selCommand);
+                mResult = TransceiveResult.get(isoDep, selCommand);
                 // If AID is successfully selected, 0x9000 is returned as the status word (last 2
-                // bytes of the result) by convention. Everything before the status word is
+                // bytes of the mResult) by convention. Everything before the status word is
                 // optional payload, which is used here to hold the account number.
-                int resultLength = result.length;
-                byte[] statusWord = {result[resultLength - 2], result[resultLength - 1]};
-                byte[] payload = Arrays.copyOf(result, resultLength - 2);
-                if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWord)) {
+                int resultLength = mResult.getLength();
+                if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
                     // The remote NFC device will immediately respond with its stored account number
-                    String accountNumber = new String(payload, "UTF-8");
+                    String accountNumber = new String(mResult.getPayload(), "UTF-8");
                     Log.i(TAG, "Received: " + accountNumber);
                     // Inform CardReaderFragment of received account number
-                    if (true) {
-                        timeTaken = System.currentTimeMillis();
-                        while (!(gotData.contains("END"))) {
-                            byte[] getCommand = Headers.BuildGetDataApdu();
-                            Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
-                            result = isoDep.transceive(getCommand);
-                            resultLength = result.length;
-                            Log.i(TAG, "Received length : " + resultLength);
-                            byte[] statusWordNew = {result[resultLength - 2], result[resultLength - 1]};
-                            payload = Arrays.copyOf(result, resultLength - 2);
-                            if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
-                                gotData = new String(payload, "UTF-8");
-                                Log.i(TAG, "Received: " + gotData);
-                                finalGotData = finalGotData + gotData;
-                                Log.i(TAG, "Data transferred : " + finalGotData.length());
-                                Log.i(TAG, "Time taken: " + (System.currentTimeMillis() - timeTaken));
+                    timeTaken = System.currentTimeMillis();
+                    while (!(gotData.contains("END"))) {
+                        byte[] getCommand = Headers.BuildGetDataApdu();
+                        Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
+                        mResult = TransceiveResult.get(isoDep, getCommand);
+                        resultLength = mResult.getLength();
+                        Log.i(TAG, "Received rlen : " + resultLength);
+                        byte[] statusWordNew = mResult.getStatusword();
+                        if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
+                            gotData = new String(mResult.getPayload(), "UTF-8");
+                            Log.i(TAG, "Received: " + gotData);
+                            finalGotData = finalGotData + gotData;
+                            Log.i(TAG, "Data transferred : " + finalGotData.length());
+                            Log.i(TAG, "Time taken: " + (System.currentTimeMillis() - timeTaken));
 
-                            }
                         }
-                        mAccountCallback.get().onDataReceived(gotData);
-
                     }
-                    //mAccountCallback.get().onDataReceived(accountNumber);
+                    mAccountCallback.get().onDataReceived(gotData);
 
-                    /*String seedVal = "PRESHAREDKEY";
-                    String decodedString = null;
-                    try {
-                        decodedString = AESHelper.decrypt(seedVal, accountNumber);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e("ARNAV", "failed to decrypt");
-                        decodedString = accountNumber;
-                    }*/
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Error communicating with card: " + e.toString());
@@ -117,5 +110,6 @@ public class CardReader implements NfcAdapter.ReaderCallback {
     public interface ReadCallBack {
         public void onDataReceived(String account);
     }
+
 
 }
