@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/CardEmulator" />
-            <option value="$PROJECT_DIR$/CardReader" />
+            <option value="$PROJECT_DIR$/CardEmulatorApp" />
+            <option value="$PROJECT_DIR$/CardReaderApp" />
             <option value="$PROJECT_DIR$/libHCE" />
           </set>
         </option>
