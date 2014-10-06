@@ -1,4 +1,6 @@
-package edu.dce.nfc.libhce.emulator;
+package edu.dce.nfc.libhce;
+
+import edu.dce.nfc.libhce.emulator.CardEmulationWrapperService;
 
 /**
  * Created by championswimmer on 5/9/14.
