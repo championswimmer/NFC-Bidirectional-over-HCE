@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import edu.dce.nfc.libhce.ReaderModeActivity;
+import edu.dce.nfc.libhce.ReaderActivity;
 import edu.dce.nfc.libhce.reader.CardReader;
 
 
-public class MainActivity extends ReaderModeActivity {
+public class MainActivity extends ReaderActivity {
 
     public MainActivity(CardReader.ReadCallBack ac) {
         super(ac);

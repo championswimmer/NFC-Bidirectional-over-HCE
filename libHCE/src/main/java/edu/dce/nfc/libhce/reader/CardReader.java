@@ -60,18 +60,16 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
                 mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
                 mTimeout = isoDep.getTimeout();
-                Log.i(TAG, "Timeout = " + isoDep.getTimeout());
                 isoDep.setTimeout(3600);
-                Log.i(TAG, "Timeout = " + isoDep.getTimeout());
-                Log.i(TAG, "MaxTransceiveLength = " + isoDep.getMaxTransceiveLength());
+                mTimeout = isoDep.getTimeout();
 
                 // Build SELECT AID command for our loyalty card service.
                 // This command tells the remote device which service we wish to communicate with.
-                Log.i(TAG, "Requesting remote AID: " + Headers.SAMPLE_LOYALTY_CARD_AID);
                 byte[] selCommand = Headers.BuildSelectApdu(Headers.SAMPLE_LOYALTY_CARD_AID);
-                // Send command to remote device
-                Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(selCommand));
+
+                // Send command to remote device and fetch result
                 mResult = TransceiveResult.get(isoDep, selCommand);
+
                 // If AID is successfully selected, 0x9000 is returned as the status word (last 2
                 // bytes of the mResult) by convention. Everything before the status word is
                 // optional payload, which is used here to hold the account number.

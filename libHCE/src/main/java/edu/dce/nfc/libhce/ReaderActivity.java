@@ -9,15 +9,15 @@ import edu.dce.nfc.libhce.reader.CardReader;
 /**
  * Created by championswimmer on 5/9/14.
  */
-public class ReaderModeActivity extends Activity {
+public class ReaderActivity extends Activity {
 
-    public static final String TAG = "libHCE-ReaderModeActivity";
+    public static final String TAG = "libHCE-ReaderActivity";
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
     private CardReader mCardReader;
 
-    public ReaderModeActivity(CardReader.ReadCallBack ac) {
+    public ReaderActivity(CardReader.ReadCallBack ac) {
         mCardReader = new CardReader(ac);
     }
 

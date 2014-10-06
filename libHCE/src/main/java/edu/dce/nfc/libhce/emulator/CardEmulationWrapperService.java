@@ -6,7 +6,7 @@ import android.os.Bundle;
 /**
  * Created by championswimmer on 5/9/14.
  */
-public class CardEmulatorService extends HostApduService {
+public class CardEmulationWrapperService extends HostApduService {
 
     @Override
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {
