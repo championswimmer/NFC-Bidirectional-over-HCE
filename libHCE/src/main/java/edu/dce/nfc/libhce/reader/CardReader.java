@@ -30,7 +30,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
     long timeTaken = 0;
 
     // Weak reference to prevent retain loop. mAccountCallback is responsible for exiting
-// foreground mode before it becomes invalid (e.g. during onPause() or onStop()).
+    // foreground mode before it becomes invalid (e.g. during onPause() or onStop()).
     private WeakReference<ReadCallBack> mAccountCallback;
 
     public CardReader(ReadCallBack readCallBack) {

@@ -15,6 +15,17 @@ public class MainActivity extends ReaderActivity {
     }
 
     @Override
+    public void onHceStarted() {
+        //
+        // TODO:
+        // Start sending the commands here
+        // Using transactNFC(command); calls
+
+
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
