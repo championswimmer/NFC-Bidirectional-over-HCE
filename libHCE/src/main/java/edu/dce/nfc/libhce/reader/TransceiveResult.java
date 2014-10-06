@@ -13,7 +13,8 @@ public class TransceiveResult {
     private byte[] result;
     private byte[] statusword;
     private byte[] payload;
-    public TransceiveResult (IsoDep isoDep, byte[] command) throws IOException {
+
+    public TransceiveResult(IsoDep isoDep, byte[] command) throws IOException {
         result = isoDep.transceive(command);
         rlen = result.length;
         statusword = new byte[]{result[rlen - 2], result[rlen - 1]};
@@ -21,7 +22,7 @@ public class TransceiveResult {
     }
 
     public static TransceiveResult get(IsoDep isoDep, byte[] command) throws IOException {
-        return new TransceiveResult(isoDep,command);
+        return new TransceiveResult(isoDep, command);
     }
 
     public int getLength() {

@@ -23,7 +23,7 @@ public class ReaderActivity extends Activity {
 
     /**
      * Method to start the reader mode.
-     *
+     * <p/>
      * If reader mode isn't enabled, devices wont interact, even when tapped together.
      * Reader mode should be enabled before tapping to be able to detect the other device.
      */
@@ -38,7 +38,7 @@ public class ReaderActivity extends Activity {
 
     /**
      * Method to stop reader mode.
-     *
+     * <p/>
      * Advisable to free up the reader mode when leaving the activity.
      * If reader mode is engaged, other NFC functions like Beam and other Wallet like
      * apps wont function, so always close reader mode safely before leaving the app.
@@ -52,17 +52,17 @@ public class ReaderActivity extends Activity {
     }
 
     /**
-     *  Method to start a transaction with the emulator app on the other device
-     *
+     * Method to start a transaction with the emulator app on the other device
+     * <p/>
      * Send a custom "sendCommand" that will be read by emulator, which will
      * accordingly send back a message, that will be returned by this function.
-     *
+     * <p/>
      * Usually you do not need to override this function.
      *
      * @param sendCommand - A string command to send to card emulator device.
      * @return - The message sent back by emulator device after receiving the command
      */
-    protected String transactNFC( String sendCommand ) {
+    protected String transactNFC(String sendCommand) {
         String receiveMessage = "";
         return receiveMessage;
     }

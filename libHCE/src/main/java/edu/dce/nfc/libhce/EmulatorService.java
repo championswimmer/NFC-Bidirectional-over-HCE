@@ -9,16 +9,16 @@ public abstract class EmulatorService extends CardEmulationWrapperService {
 
     /**
      * Abstract method that performs the transaction
-     *
+     * <p/>
      * When in contact with a device having the reader app, it will send a command
      * that will call this function.
-     *
+     * <p/>
      * You need to override this function, parse the received command
      * and send back a suitable message/data as per the needs of your applicaiton
      *
      * @param command - Command received from the Card Reader device
      * @return - The message that needs to be sent back to the reader.
      */
-    public abstract String onReceiveCommand ( String command );
+    public abstract String onReceiveCommand(String command);
 
 }
