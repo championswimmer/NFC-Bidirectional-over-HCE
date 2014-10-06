@@ -54,6 +54,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
         // using the IsoDep class.
         IsoDep isoDep = IsoDep.get(tag);
         if (isoDep != null) {
+            mAccountCallback.get().onHceStarted();
             try {
                 // Connect to the remote NFC device
                 isoDep.connect();
@@ -74,12 +75,14 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 // bytes of the mResult) by convention. Everything before the status word is
                 // optional payload, which is used here to hold the account number.
                 int resultLength = mResult.getLength();
+
                 if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
+
                     // The remote NFC device will immediately respond with its stored account number
                     String accountNumber = new String(mResult.getPayload(), "UTF-8");
                     Log.i(TAG, "Received: " + accountNumber);
-                    // Inform CardReaderFragment of received account number
-                    timeTaken = System.currentTimeMillis();
+
+                    // Keep fetching until we reach the end
                     while (!(gotData.contains("END"))) {
                         byte[] getCommand = Headers.BuildGetDataApdu();
                         Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
@@ -96,7 +99,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
 
                         }
                     }
-                    mAccountCallback.get().onDataReceived(gotData);
+                    mAccountCallback.get().onDataReceived(finalGotData);
 
                 }
             } catch (IOException e) {
@@ -106,6 +109,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
     }
 
     public interface ReadCallBack {
+        public void onHceStarted();
         public void onDataReceived(String account);
     }
 

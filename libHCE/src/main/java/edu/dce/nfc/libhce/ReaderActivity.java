@@ -9,7 +9,7 @@ import edu.dce.nfc.libhce.reader.CardReader;
 /**
  * Created by championswimmer on 5/9/14.
  */
-public class ReaderActivity extends Activity {
+public abstract class ReaderActivity extends Activity implements CardReader.ReadCallBack {
 
     public static final String TAG = "libHCE-ReaderActivity";
     public static int READER_FLAGS =
@@ -66,4 +66,7 @@ public class ReaderActivity extends Activity {
         String receiveMessage = "";
         return receiveMessage;
     }
+
+    public abstract void onHceStarted ();
+    public abstract void onDataReceived(String data);
 }

@@ -26,6 +26,11 @@ public class MainActivity extends ReaderActivity {
     }
 
     @Override
+    public void onDataReceived(String data) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
