@@ -50,4 +50,20 @@ public class ReaderActivity extends Activity {
             nfc.disableReaderMode(this);
         }
     }
+
+    /**
+     *  Method to start a transaction with the emulator app on the other device
+     *
+     * Send a custom "sendCommand" that will be read by emulator, which will
+     * accordingly send back a message, that will be returned by this function.
+     *
+     * Usually you do not need to override this function.
+     *
+     * @param sendCommand - A string command to send to card emulator device.
+     * @return - The message sent back by emulator device after receiving the command
+     */
+    protected String transactNFC( String sendCommand ) {
+        String receiveMessage = "";
+        return receiveMessage;
+    }
 }
