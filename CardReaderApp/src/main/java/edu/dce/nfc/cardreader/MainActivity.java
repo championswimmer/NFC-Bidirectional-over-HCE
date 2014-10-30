@@ -1,5 +1,6 @@
 package edu.dce.nfc.cardreader;
 
+import android.nfc.tech.IsoDep;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ public class MainActivity extends ReaderActivity {
     }
 
     @Override
-    public void onHceStarted() {
+    public void onHceStarted(IsoDep isoDep) {
         //
         // TODO:
         // Start sending the commands here
