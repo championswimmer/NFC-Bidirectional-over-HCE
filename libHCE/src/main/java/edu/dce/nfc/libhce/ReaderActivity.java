@@ -2,6 +2,7 @@ package edu.dce.nfc.libhce;
 
 import android.app.Activity;
 import android.nfc.NfcAdapter;
+import android.nfc.tech.IsoDep;
 import android.util.Log;
 
 import edu.dce.nfc.libhce.reader.CardReader;
@@ -67,6 +68,6 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         return receiveMessage;
     }
 
-    public abstract void onHceStarted ();
+    public abstract void onHceStarted (IsoDep isoDep);
     public abstract void onDataReceived(String data);
 }

@@ -54,7 +54,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
         // using the IsoDep class.
         IsoDep isoDep = IsoDep.get(tag);
         if (isoDep != null) {
-            mAccountCallback.get().onHceStarted();
+
             try {
                 // Connect to the remote NFC device
                 isoDep.connect();
@@ -63,6 +63,9 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 mTimeout = isoDep.getTimeout();
                 isoDep.setTimeout(3600);
                 mTimeout = isoDep.getTimeout();
+
+                mAccountCallback.get().onHceStarted(isoDep);
+
 
                 // Build SELECT AID command for our loyalty card service.
                 // This command tells the remote device which service we wish to communicate with.
@@ -78,7 +81,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
 
                 if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
 
-                    // The remote NFC device will immediately respond with its stored account number
+                    // Get payload from message
                     String accountNumber = new String(mResult.getPayload(), "UTF-8");
                     Log.i(TAG, "Received: " + accountNumber);
 
@@ -109,7 +112,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
     }
 
     public interface ReadCallBack {
-        public void onHceStarted();
+        public void onHceStarted(IsoDep isoDep);
         public void onDataReceived(String account);
     }
 
