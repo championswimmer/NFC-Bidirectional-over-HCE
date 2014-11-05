@@ -3,6 +3,7 @@ package edu.dce.nfc.libhce;
 import android.app.Activity;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.io.IOException;
@@ -24,8 +25,11 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
 
     private CardReader mCardReader;
 
-    public ReaderActivity(CardReader.ReadCallBack ac) {
-        mCardReader = new CardReader(ac);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCardReader = new CardReader(this);
     }
 
     /**

@@ -19,10 +19,6 @@ public class MainActivity extends ReaderActivity {
     public static int mTimeout;
 
 
-    public MainActivity(CardReader.ReadCallBack ac) {
-        super(ac);
-    }
-
     @Override
     public void onHceStarted(IsoDep isoDep) {
 
