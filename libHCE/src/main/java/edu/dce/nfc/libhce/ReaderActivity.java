@@ -62,6 +62,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         }
     }
 
+
     /**
      * Method to start a transaction with the emulator app on the other device
      * <p/>
@@ -73,7 +74,8 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
      * @param sendCommand - A string command to send to card emulator device.
      * @return - The message sent back by emulator device after receiving the command
      */
-    public String transactNfc(IsoDep isoDep, String sendCommand) throws IOException {
+    @Override
+    public String transactNfc (IsoDep isoDep, String sendCommand) throws IOException {
         int resultLength = 0;
         String gotData = "", finalGotData = "";
         long timeTaken = 0;

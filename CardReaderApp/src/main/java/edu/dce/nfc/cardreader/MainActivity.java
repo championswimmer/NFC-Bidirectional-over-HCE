@@ -21,6 +21,7 @@ public class MainActivity extends ReaderActivity {
 
     @Override
     public void onHceStarted(IsoDep isoDep) {
+        Log.d("NFC Reader", "onHCEStarted");
 
         mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
         mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
@@ -45,7 +46,6 @@ public class MainActivity extends ReaderActivity {
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +55,7 @@ public class MainActivity extends ReaderActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("NFC Reader", "starting reader");
         enableReaderMode();
     }
 

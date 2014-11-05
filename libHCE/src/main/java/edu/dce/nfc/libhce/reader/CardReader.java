@@ -16,7 +16,7 @@ import edu.dce.nfc.libhce.common.Utils;
  * Created by championswimmer on 5/9/14.
  */
 public class CardReader implements NfcAdapter.ReaderCallback {
-    private static final String TAG = "LoyaltyCardReader";
+    private static final String TAG = "NFCCardReader";
 
     TransceiveResult mResult;
     IsoDep isoDep;
@@ -56,6 +56,8 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 // Select the card
                 byte[] selCommand = Headers.BuildSelectApdu(Headers.CARD_AID);
                 mResult = TransceiveResult.get(isoDep, selCommand);
+
+                Log.d("NFC Reader", "select result = " + Arrays.toString(mResult.getPayload()));
 
                 // If AID is successfully selected, 0x9000 is returned as the status word (last 2
                 // bytes of the mResult) by convention. Everything before the status word is
