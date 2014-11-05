@@ -18,16 +18,9 @@ import edu.dce.nfc.libhce.common.Utils;
 public class CardReader implements NfcAdapter.ReaderCallback {
     private static final String TAG = "LoyaltyCardReader";
 
-    int mMaxTransceiveLength;
-    boolean mExtendedApduSupported;
-    int mTimeout;
-
     TransceiveResult mResult;
+    IsoDep isoDep;
 
-
-    String gotData = "", finalGotData = "";
-
-    long timeTaken = 0;
 
     // Weak reference to prevent retain loop. mAccountCallback is responsible for exiting
     // foreground mode before it becomes invalid (e.g. during onPause() or onStop()).
@@ -52,69 +45,36 @@ public class CardReader implements NfcAdapter.ReaderCallback {
         //
         // In order to communicate with a device using HCE, the discovered tag should be processed
         // using the IsoDep class.
-        IsoDep isoDep = IsoDep.get(tag);
+        isoDep = IsoDep.get(tag);
         if (isoDep != null) {
 
             try {
                 // Connect to the remote NFC device
                 isoDep.connect();
-                mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
-                mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
-                mTimeout = isoDep.getTimeout();
-                isoDep.setTimeout(3600);
-                mTimeout = isoDep.getTimeout();
-
-                mAccountCallback.get().onHceStarted(isoDep);
 
 
-                // Build SELECT AID command for our loyalty card service.
-                // This command tells the remote device which service we wish to communicate with.
-                byte[] selCommand = Headers.BuildSelectApdu(Headers.SAMPLE_LOYALTY_CARD_AID);
-
-                // Send command to remote device and fetch result
+                // Select the card
+                byte[] selCommand = Headers.BuildSelectApdu(Headers.CARD_AID);
                 mResult = TransceiveResult.get(isoDep, selCommand);
 
                 // If AID is successfully selected, 0x9000 is returned as the status word (last 2
                 // bytes of the mResult) by convention. Everything before the status word is
                 // optional payload, which is used here to hold the account number.
-                int resultLength = mResult.getLength();
-
                 if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
-
-                    // Get payload from message
-                    String accountNumber = new String(mResult.getPayload(), "UTF-8");
-                    Log.i(TAG, "Received: " + accountNumber);
-
-                    // Keep fetching until we reach the end
-                    while (!(gotData.contains("END"))) {
-                        byte[] getCommand = Headers.BuildGetDataApdu();
-                        Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
-                        mResult = TransceiveResult.get(isoDep, getCommand);
-                        resultLength = mResult.getLength();
-                        Log.i(TAG, "Received rlen : " + resultLength);
-                        byte[] statusWordNew = mResult.getStatusword();
-                        if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
-                            gotData = new String(mResult.getPayload(), "UTF-8");
-                            Log.i(TAG, "Received: " + gotData);
-                            finalGotData = finalGotData + gotData;
-                            Log.i(TAG, "Data transferred : " + finalGotData.length());
-                            Log.i(TAG, "Time taken: " + (System.currentTimeMillis() - timeTaken));
-
-                        }
-                    }
-                    mAccountCallback.get().onDataReceived(finalGotData);
-
+                    mAccountCallback.get().onHceStarted(isoDep);
                 }
+
             } catch (IOException e) {
                 Log.e(TAG, "Error communicating with card: " + e.toString());
             }
         }
     }
 
-    public interface ReadCallBack {
-        public void onHceStarted(IsoDep isoDep);
-        public void onDataReceived(String account);
-    }
 
+
+    public interface ReadCallBack {
+        public String transactNfc (IsoDep isoDep, String sendCommand) throws IOException;
+        public void onHceStarted(IsoDep isoDep);
+    }
 
 }

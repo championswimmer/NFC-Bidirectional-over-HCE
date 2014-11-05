@@ -2,8 +2,11 @@ package edu.dce.nfc.cardreader;
 
 import android.nfc.tech.IsoDep;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.io.IOException;
 
 import edu.dce.nfc.libhce.ReaderActivity;
 import edu.dce.nfc.libhce.reader.CardReader;
@@ -11,25 +14,41 @@ import edu.dce.nfc.libhce.reader.CardReader;
 
 public class MainActivity extends ReaderActivity {
 
+    public static int mMaxTransceiveLength;
+    public static boolean mExtendedApduSupported;
+    public static int mTimeout;
+
+
     public MainActivity(CardReader.ReadCallBack ac) {
         super(ac);
     }
 
     @Override
     public void onHceStarted(IsoDep isoDep) {
-        //
+
+        mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
+        mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
+        mTimeout = isoDep.getTimeout();
+        isoDep.setTimeout(3600);
+        mTimeout = isoDep.getTimeout();
+
+        Log.d(TAG,
+                "  Extended APDU Supported = " + mExtendedApduSupported +
+                "  Max Transceive Length = " + mMaxTransceiveLength +
+                "  Timeout = " + mTimeout);
+
         // TODO:
         // Start sending the commands here
         // Using transactNFC(command); calls
-
+        try {
+            transactNfc(isoDep, "somecommand");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
-    @Override
-    public void onDataReceived(String data) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

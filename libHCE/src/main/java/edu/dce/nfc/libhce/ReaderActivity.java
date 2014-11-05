@@ -5,7 +5,13 @@ import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.util.Log;
 
+import java.io.IOException;
+import java.util.Arrays;
+
+import edu.dce.nfc.libhce.common.Headers;
+import edu.dce.nfc.libhce.common.Utils;
 import edu.dce.nfc.libhce.reader.CardReader;
+import edu.dce.nfc.libhce.reader.TransceiveResult;
 
 /**
  * Created by championswimmer on 5/9/14.
@@ -63,11 +69,32 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
      * @param sendCommand - A string command to send to card emulator device.
      * @return - The message sent back by emulator device after receiving the command
      */
-    protected String transactNFC(String sendCommand) {
-        String receiveMessage = "";
-        return receiveMessage;
+    public String transactNfc(IsoDep isoDep, String sendCommand) throws IOException {
+        int resultLength = 0;
+        String gotData = "", finalGotData = "";
+        long timeTaken = 0;
+        TransceiveResult mResult;
+        // Keep fetching until we reach the end
+        while (!(gotData.contains("END"))) {
+            byte[] getCommand = Headers.BuildGetDataApdu();
+            Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
+            mResult = TransceiveResult.get(isoDep, getCommand);
+            resultLength = mResult.getLength();
+            Log.i(TAG, "Received rlen : " + resultLength);
+            byte[] statusWordNew = mResult.getStatusword();
+            if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
+                gotData = new String(mResult.getPayload(), "UTF-8");
+                Log.i(TAG, "Received: " + gotData);
+                finalGotData = finalGotData + gotData;
+                Log.i(TAG, "Data transferred : " + finalGotData.length());
+                Log.i(TAG, "Time taken: " + (System.currentTimeMillis() - timeTaken));
+
+            }
+        }
+        return finalGotData;
+
     }
 
     public abstract void onHceStarted (IsoDep isoDep);
-    public abstract void onDataReceived(String data);
+
 }

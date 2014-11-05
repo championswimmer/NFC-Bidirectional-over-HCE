@@ -7,7 +7,7 @@ public class Headers {
     /**
      * AID for our loyalty card service.
      */
-    public static final String SAMPLE_LOYALTY_CARD_AID = "F222222222";
+    public static final String CARD_AID = "F222222222";
 
     /**
      * ISO-DEP command HEADER for selecting an AID.
@@ -30,6 +30,11 @@ public class Headers {
      * "FINAL" status word sent in response to GETDATA command (0x9006)
      */
     public static final byte[] RESPONSE_GETDATA_FINAL = {(byte) 0x90, (byte) 0x06};
+
+    /**
+     * "FINAL" status word sent in response to GETDATA command (0x9006)
+     */
+    public static final byte[] RESPONSE_GETDATA_INTERMEDIATE = {(byte) 0x90, (byte) 0x05};
 
     /**
      * Build APDU for SELECT AID command. This command indicates which service a reader is
