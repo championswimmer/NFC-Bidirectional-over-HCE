@@ -1,11 +1,21 @@
 package edu.dce.nfc.libhce;
 
+import android.content.Intent;
+import android.util.Log;
+
 import edu.dce.nfc.libhce.emulator.CardEmulationWrapperService;
 
 /**
  * Created by championswimmer on 5/9/14.
  */
 public abstract class EmulatorService extends CardEmulationWrapperService {
+    public static final String TAG = "EmulatorService";
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "Service started");
+        return START_STICKY;
+    }
 
     /**
      * Abstract method that performs the transaction
