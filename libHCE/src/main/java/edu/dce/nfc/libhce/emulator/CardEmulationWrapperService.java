@@ -16,7 +16,7 @@ public class CardEmulationWrapperService extends HostApduService {
     @Override
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {
         String s = new String(bytes);
-        Log.d(TAG, "processCommandApdu : " + s);
+        Log.d(TAG, "processCommandApdu : " + s + bytes[0] + bytes[1] + bytes[2] + bytes[3]);
 
         return ("WOWWTF END").getBytes();
     }

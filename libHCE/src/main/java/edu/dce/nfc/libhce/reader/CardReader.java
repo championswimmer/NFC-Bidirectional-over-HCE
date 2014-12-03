@@ -57,12 +57,18 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 byte[] selCommand = Headers.BuildSelectApdu(Headers.CARD_AID);
                 mResult = TransceiveResult.get(isoDep, selCommand);
 
-                Log.d("NFC Reader", "select result = " + Arrays.toString(mResult.getPayload()));
+                Log.d("NFC Reader", "select result = "
+                        + Arrays.toString(mResult.getPayload())
+                        + "\n statusword =  " + new String(mResult.getStatusword())
+                        + "\n payload = " + new String(mResult.getPayload())
+                        + "\n length = " + mResult.getLength()
+                );
 
                 // If AID is successfully selected, 0x9000 is returned as the status word (last 2
                 // bytes of the mResult) by convention. Everything before the status word is
                 // optional payload, which is used here to hold the account number.
                 if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
+                    Log.d("NFC Reader", "response = OK");
                     mAccountCallback.get().onHceStarted(isoDep);
                 }
 

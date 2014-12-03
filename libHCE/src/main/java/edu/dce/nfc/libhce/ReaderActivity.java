@@ -5,6 +5,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -45,6 +46,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         if (nfc != null) {
             nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
         }
+        Toast.makeText(getBaseContext(), "Enabled Reader Mode", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -60,6 +62,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         if (nfc != null) {
             nfc.disableReaderMode(this);
         }
+        Toast.makeText(getBaseContext(), "Disabled Reader Mode", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -76,6 +79,9 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
      */
     @Override
     public String transactNfc (IsoDep isoDep, String sendCommand) throws IOException {
+        Log.d(TAG, "transactNFC started");
+        Toast.makeText(getBaseContext(), "Transact NFC Started", Toast.LENGTH_SHORT).show();
+
         int resultLength = 0;
         String gotData = "", finalGotData = "";
         long timeTaken = 0;
