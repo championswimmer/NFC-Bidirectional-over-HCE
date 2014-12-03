@@ -7,7 +7,7 @@ public class Headers {
     /**
      * AID for our loyalty card service.
      */
-    public static final String CARD_AID = "F222222222";
+    public static final String CARD_AID = "F222222244";
 
     /**
      * ISO-DEP command HEADER for selecting an AID.

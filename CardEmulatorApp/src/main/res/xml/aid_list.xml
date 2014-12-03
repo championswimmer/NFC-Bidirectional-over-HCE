@@ -44,6 +44,6 @@ the terminal must select *all* AIDs defined in the category simultaneously ("exa
     dispatch).
     -->
     <aid-group android:description="@string/card_title" android:category="other">
-        <aid-filter android:name="F222222222"/>
+        <aid-filter android:name="F222222244"/>
     </aid-group>
 </host-apdu-service>
