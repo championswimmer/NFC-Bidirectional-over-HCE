@@ -11,7 +11,7 @@ import edu.dce.nfc.libhce.common.Utils;
  */
 public abstract class CardEmulationWrapperService extends HostApduService {
 
-    public static final String TAG = "libHCE - CardEmulationWrapperService";
+    public static final String TAG = "libHCEEmulator";
 
     @Override
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {

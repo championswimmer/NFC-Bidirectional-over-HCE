@@ -20,7 +20,7 @@ import edu.dce.nfc.libhce.reader.TransceiveResult;
  */
 public abstract class ReaderActivity extends Activity implements CardReader.ReadCallBack {
 
-    public static final String TAG = "libHCE- ReaderActivity";
+    public static final String TAG = "libHCEReader";
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
@@ -31,6 +31,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCardReader = new CardReader(this);
+        Log.i(TAG, "onCreate CardReader instance made");
     }
 
     /**

@@ -9,7 +9,7 @@ import edu.dce.nfc.libhce.emulator.CardEmulationWrapperService;
  * Created by championswimmer on 5/9/14.
  */
 public abstract class EmulatorService extends CardEmulationWrapperService {
-    public static final String TAG = "libHCE - EmulatorService";
+    public static final String TAG = "libHCEEmulator";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

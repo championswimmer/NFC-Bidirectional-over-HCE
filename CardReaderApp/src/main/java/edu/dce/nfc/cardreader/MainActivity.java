@@ -21,7 +21,7 @@ public class MainActivity extends ReaderActivity {
 
     @Override
     public void onHceStarted(IsoDep isoDep) {
-        Log.d("NFC Reader", "onHCEStarted");
+        Log.d(TAG, "onHCEStarted");
 
         mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
         mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
@@ -29,10 +29,10 @@ public class MainActivity extends ReaderActivity {
         isoDep.setTimeout(3600);
         mTimeout = isoDep.getTimeout();
 
-        Log.d(TAG,
-                "\n  Extended APDU Supported = " + mExtendedApduSupported +
-                "\n  Max Transceive Length = " + mMaxTransceiveLength +
-                "\n  Timeout = " + mTimeout);
+        Log.i(TAG,
+                "  Extended APDU Supported = " + mExtendedApduSupported +
+                "  Max Transceive Length = " + mMaxTransceiveLength +
+                "  Timeout = " + mTimeout);
 
         // TODO:
         // Start sending the commands here
@@ -55,7 +55,7 @@ public class MainActivity extends ReaderActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("NFC Reader", "starting reader");
+        Log.d(TAG, "starting reader");
         enableReaderMode();
     }
 
