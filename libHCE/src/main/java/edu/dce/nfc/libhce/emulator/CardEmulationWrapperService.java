@@ -9,7 +9,7 @@ import edu.dce.nfc.libhce.common.Utils;
 /**
  * Created by championswimmer on 5/9/14.
  */
-public class CardEmulationWrapperService extends HostApduService {
+public abstract class CardEmulationWrapperService extends HostApduService {
 
     public static final String TAG = "CardEmulationWrapperService";
 
@@ -18,11 +18,14 @@ public class CardEmulationWrapperService extends HostApduService {
         String s = new String(bytes);
         Log.d(TAG, "processCommandApdu : " + s + bytes[0] + bytes[1] + bytes[2] + bytes[3]);
 
-        return ("WOWWTF END").getBytes();
+        return onReceiveCommand(s).getBytes();
     }
 
     @Override
     public void onDeactivated(int i) {
 
     }
+
+    public abstract String onReceiveCommand(String command);
+
 }
