@@ -30,9 +30,9 @@ public class MainActivity extends ReaderActivity {
         mTimeout = isoDep.getTimeout();
 
         Log.d(TAG,
-                "  Extended APDU Supported = " + mExtendedApduSupported +
-                "  Max Transceive Length = " + mMaxTransceiveLength +
-                "  Timeout = " + mTimeout);
+                "\n  Extended APDU Supported = " + mExtendedApduSupported +
+                "\n  Max Transceive Length = " + mMaxTransceiveLength +
+                "\n  Timeout = " + mTimeout);
 
         // TODO:
         // Start sending the commands here

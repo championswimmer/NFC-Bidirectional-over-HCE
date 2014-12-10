@@ -20,7 +20,7 @@ import edu.dce.nfc.libhce.reader.TransceiveResult;
  */
 public abstract class ReaderActivity extends Activity implements CardReader.ReadCallBack {
 
-    public static final String TAG = "libHCE-ReaderActivity";
+    public static final String TAG = "libHCE- ReaderActivity";
     public static int READER_FLAGS =
             NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
@@ -90,10 +90,12 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         while (!(gotData.contains("END"))) {
             byte[] getCommand = Headers.BuildGetDataApdu();
             Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
+
             mResult = TransceiveResult.get(isoDep, getCommand);
             resultLength = mResult.getLength();
             Log.i(TAG, "Received rlen : " + resultLength);
             byte[] statusWordNew = mResult.getStatusword();
+
             if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
                 gotData = new String(mResult.getPayload(), "UTF-8");
                 Log.i(TAG, "Received: " + gotData);

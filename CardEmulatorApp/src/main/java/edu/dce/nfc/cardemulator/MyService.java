@@ -9,7 +9,7 @@ import edu.dce.nfc.libhce.EmulatorService;
  * Created by championswimmer on 6/10/14.
  */
 public class MyService extends EmulatorService {
-    public static final String TAG = "MyEmulatorService";
+    public static final String TAG = "libHCEEmulator - MyEmulatorService";
 
     @Override
     public String onReceiveCommand(String command) {
