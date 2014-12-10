@@ -4,6 +4,7 @@ import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
 
+import edu.dce.nfc.libhce.common.Headers;
 import edu.dce.nfc.libhce.common.Utils;
 
 /**
@@ -15,10 +16,10 @@ public abstract class CardEmulationWrapperService extends HostApduService {
 
     @Override
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {
-        String s = new String(bytes);
-        Log.d(TAG, "processCommandApdu : " + s + bytes[0] + bytes[1] + bytes[2] + bytes[3]);
+        String s = Utils.ByteArrayToHexString(bytes);
+        Log.d(TAG, "processCommandApdu : " + s);
 
-        return onReceiveCommand(s).getBytes();
+        return (onReceiveCommand(s) + Utils.ByteArrayToHexString(Headers.RESPONSE_SELECT_OK)).getBytes();
     }
 
     @Override

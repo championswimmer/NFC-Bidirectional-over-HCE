@@ -16,7 +16,7 @@ import edu.dce.nfc.libhce.common.Utils;
  * Created by championswimmer on 5/9/14.
  */
 public class CardReader implements NfcAdapter.ReaderCallback {
-    private static final String TAG = "NFCCardReader";
+    private static final String TAG = "libHCEReader";
 
     TransceiveResult mResult;
     IsoDep isoDep;
@@ -39,7 +39,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
      */
     @Override
     public void onTagDiscovered(Tag tag) {
-        Log.i(TAG, "New tag discovered");
+        Log.i(TAG, "onTagDiscovered");
         // Android's Host-based Card Emulation (HCE) feature implements the ISO-DEP (ISO 14443-4)
         // protocol.
         //
@@ -51,13 +51,14 @@ public class CardReader implements NfcAdapter.ReaderCallback {
             try {
                 // Connect to the remote NFC device
                 isoDep.connect();
+                Log.i(TAG, "isoDep connected");
 
 
                 // Select the card
                 byte[] selCommand = Headers.BuildSelectApdu(Headers.CARD_AID);
                 mResult = TransceiveResult.get(isoDep, selCommand);
 
-                Log.d("NFC Reader", "select result = "
+                Log.d(TAG, "result = "
                         + Arrays.toString(mResult.getPayload())
                         + "\n statusword =  " + new String(mResult.getStatusword())
                         + "\n payload = " + new String(mResult.getPayload())
@@ -68,7 +69,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
                 // bytes of the mResult) by convention. Everything before the status word is
                 // optional payload, which is used here to hold the account number.
                 if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
-                    Log.d("NFC Reader", "response = OK");
+                    Log.d(TAG, "response = OK");
                     mAccountCallback.get().onHceStarted(isoDep);
                 }
 
