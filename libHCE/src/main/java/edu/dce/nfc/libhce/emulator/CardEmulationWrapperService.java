@@ -19,7 +19,7 @@ public abstract class CardEmulationWrapperService extends HostApduService {
         String s = Utils.ByteArrayToHexString(bytes);
         Log.d(TAG, "processCommandApdu : " + s);
 
-        return (onReceiveCommand(s) + Utils.ByteArrayToHexString(Headers.RESPONSE_SELECT_OK)).getBytes();
+        return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SELECT_OK);
     }
 
     @Override
