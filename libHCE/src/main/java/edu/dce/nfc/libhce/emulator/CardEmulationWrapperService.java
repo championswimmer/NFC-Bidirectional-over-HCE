@@ -18,6 +18,10 @@ public abstract class CardEmulationWrapperService extends HostApduService {
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {
         String s = Utils.ByteArrayToHexString(bytes);
         Log.d(TAG, "processCommandApdu : " + s);
+        if (s.contains("00A404")) {
+            // This is select command
+            return Utils.ConcatArrays(onCardSelect(s).getBytes(), Headers.RESPONSE_SELECT_OK);
+        }
 
         return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SELECT_OK);
     }
@@ -28,5 +32,6 @@ public abstract class CardEmulationWrapperService extends HostApduService {
     }
 
     public abstract String onReceiveCommand(String command);
+    public abstract String onCardSelect(String command);
 
 }

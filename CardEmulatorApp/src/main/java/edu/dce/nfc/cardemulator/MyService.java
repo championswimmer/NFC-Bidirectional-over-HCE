@@ -14,7 +14,13 @@ public class MyService extends EmulatorService {
     @Override
     public String onReceiveCommand(String command) {
         Log.i(TAG, "onReceiveCommand called with command = " + command);
-        return "OOOH LALALA";
+        return "DATA_BASED_ON_COMMAND";
+    }
+
+    @Override
+    public String onCardSelect(String command) {
+        Log.i(TAG, "onCardSelect called with command = " + command);
+        return "PATIENT_ID_HERE";
     }
 
 

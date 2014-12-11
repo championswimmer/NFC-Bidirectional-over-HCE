@@ -81,7 +81,6 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
     @Override
     public String transactNfc (IsoDep isoDep, String sendCommand) throws IOException {
         Log.d(TAG, "transactNFC started");
-        Toast.makeText(getBaseContext(), "Transact NFC Started", Toast.LENGTH_SHORT).show();
 
         int resultLength = 0;
         String gotData = "", finalGotData = "";
