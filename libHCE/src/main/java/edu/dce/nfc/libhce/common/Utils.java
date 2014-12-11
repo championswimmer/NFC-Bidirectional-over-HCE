@@ -1,6 +1,8 @@
 package edu.dce.nfc.libhce.common;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by championswimmer on 5/9/14.
@@ -61,6 +63,19 @@ public class Utils {
             offset += array.length;
         }
         return result;
+    }
+
+    public static String[] StringSplit255(String text) {
+        // Give the list the right capacity to start with. You could use an array
+        // instead if you wanted.
+        String[] ret = new String[(text.length() + 254) / 255];
+        int retcounter = 0;
+
+        for (int start = 0; start < text.length(); start += 255) {
+            ret[retcounter] = (text.substring(start, Math.min(text.length(), start + 255)));
+            retcounter += 1;
+        }
+        return ret;
     }
 
 }

@@ -4,6 +4,8 @@ import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.List;
+
 import edu.dce.nfc.libhce.common.Headers;
 import edu.dce.nfc.libhce.common.Utils;
 
@@ -13,6 +15,7 @@ import edu.dce.nfc.libhce.common.Utils;
 public abstract class CardEmulationWrapperService extends HostApduService {
 
     public static final String TAG = "libHCEEmulator";
+    int sendCounter = 0;
 
     @Override
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {
@@ -23,11 +26,25 @@ public abstract class CardEmulationWrapperService extends HostApduService {
             return Utils.ConcatArrays(onCardSelect(s).getBytes(), Headers.RESPONSE_SELECT_OK);
         }
 
+        String[] results = Utils.StringSplit255(onReceiveCommand(s));
+        String result = sendResultPart(results);
+
         return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SELECT_OK);
     }
 
     @Override
     public void onDeactivated(int i) {
+
+    }
+
+    public String sendResultPart (String[] results) {
+        if (sendCounter < results.length) {
+            sendCounter += 1;
+            return results[sendCounter-1];
+        } else {
+            sendCounter = 0;
+            return "END_OF_DATA";
+        }
 
     }
 
