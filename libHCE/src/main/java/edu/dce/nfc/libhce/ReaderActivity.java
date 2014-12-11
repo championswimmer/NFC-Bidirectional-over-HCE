@@ -47,7 +47,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         if (nfc != null) {
             nfc.enableReaderMode(this, mCardReader, READER_FLAGS, null);
         }
-        Toast.makeText(getBaseContext(), "Enabled Reader Mode", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(), "Enabled Reader Mode", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         if (nfc != null) {
             nfc.disableReaderMode(this);
         }
-        Toast.makeText(getBaseContext(), "Disabled Reader Mode", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(), "Disabled Reader Mode", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -74,6 +74,8 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
      * accordingly send back a message, that will be returned by this function.
      * <p/>
      * Usually you do not need to override this function.
+     * If data is larger than 255 chars, this method will ideally
+     * internally iterate over the calls to send the data.
      *
      * @param sendCommand - A string command to send to card emulator device.
      * @return - The message sent back by emulator device after receiving the command
@@ -102,6 +104,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
                 finalGotData = finalGotData + gotData;
                 Log.i(TAG, "Data transferred : " + finalGotData.length());
                 Log.i(TAG, "Time taken: " + (System.currentTimeMillis() - timeTaken));
+                Log.d(TAG, "Final data = " + finalGotData);
 
             }
         }

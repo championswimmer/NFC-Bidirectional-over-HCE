@@ -23,8 +23,10 @@ public class MainActivity extends ReaderActivity {
     public void onHceStarted(IsoDep isoDep) {
         Log.d(TAG, "onHCEStarted");
 
+        //Check out support for extended APDU here if you want to
         mExtendedApduSupported = isoDep.isExtendedLengthApduSupported();
         mMaxTransceiveLength = isoDep.getMaxTransceiveLength();
+        // Set and check timeout here if you want to
         mTimeout = isoDep.getTimeout();
         isoDep.setTimeout(3600);
         mTimeout = isoDep.getTimeout();

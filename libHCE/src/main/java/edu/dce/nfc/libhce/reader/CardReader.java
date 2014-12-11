@@ -67,7 +67,7 @@ public class CardReader implements NfcAdapter.ReaderCallback {
 
                 // If AID is successfully selected, 0x9000 is returned as the status word (last 2
                 // bytes of the mResult) by convention. Everything before the status word is
-                // optional payload, which is used here to hold the account number.
+                // optional payload
                 if (Arrays.equals(Headers.RESPONSE_SELECT_OK, mResult.getStatusword())) {
                     Log.d(TAG, "response = OK");
                     mAccountCallback.get().onHceStarted(isoDep);
