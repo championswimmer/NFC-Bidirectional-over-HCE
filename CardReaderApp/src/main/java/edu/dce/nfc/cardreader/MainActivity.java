@@ -40,7 +40,7 @@ public class MainActivity extends ReaderActivity {
         // Start sending the commands here
         // Using transactNFC(command); calls
         try {
-            transactNfc(isoDep, "somecommand");
+            String result = transactNfc(isoDep, "somecommand");
         } catch (IOException e) {
             e.printStackTrace();
         }
