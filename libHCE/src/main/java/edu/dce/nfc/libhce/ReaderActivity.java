@@ -77,35 +77,62 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
      * If data is larger than 255 chars, this method will ideally
      * internally iterate over the calls to send the data.
      *
-     * @param sendCommand - A string command to send to card emulator device.
+     * @param command - A string command to send to card emulator device.
      * @return - The message sent back by emulator device after receiving the command
      */
     @Override
-    public String transactNfc (IsoDep isoDep, String sendCommand) throws IOException {
+    public String transactNfc (IsoDep isoDep, String command) throws IOException {
         Log.d(TAG, "transactNFC started");
 
         int resultLength = 0;
         String gotData = "", finalGotData = "";
         long timeTaken = 0;
         TransceiveResult mResult;
-        // Keep fetching until we reach the end
-        while (!(gotData.contains("END"))) {
-            byte[] getCommand = Headers.BuildGetDataApdu();
-            Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
 
-            mResult = TransceiveResult.get(isoDep, getCommand);
+        // Split command into 255 byte parts
+        String[] commandParts = Utils.StringSplit255(command);
+
+        // Keep fetching until we reach the end
+        for (int i = 0; i < commandParts.length; i++) {
+            byte[] sendCommand = Headers.BuildSendDataApdu(i, commandParts[i]);
+            Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(sendCommand));
+            mResult = TransceiveResult.get(isoDep, sendCommand);
             resultLength = mResult.getLength();
             Log.i(TAG, "Received rlen : " + resultLength);
             byte[] statusWordNew = mResult.getStatusword();
+            if (Arrays.equals(Headers.RESPONSE_SENDCOMMAND_OK, statusWordNew)) {
+                gotData = new String(mResult.getPayload(), "UTF-8");
+                Log.i(TAG, "Received: " + gotData);
+            }
+        }
 
-            if (Arrays.equals(Headers.RESPONSE_SELECT_OK, statusWordNew)) {
+        byte[] sendCommandFinal = Headers.BuildSendDataApdu(commandParts.length, "END_OF_COMMAND");
+        Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(sendCommandFinal));
+        mResult = TransceiveResult.get(isoDep, sendCommandFinal);
+        resultLength = mResult.getLength();
+        Log.i(TAG, "Received rlen : " + resultLength);
+        byte[] statusWordNew = mResult.getStatusword();
+        if (Arrays.equals(Headers.RESPONSE_SENDCOMMAND_PROCESSED, statusWordNew)) {
+            gotData = new String(mResult.getPayload(), "UTF-8");
+            Log.i(TAG, "Received: " + gotData);
+        }
+
+        while (true) {
+            byte[] getCommand = Headers.BuildGetDataApdu();
+            Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
+            mResult = TransceiveResult.get(isoDep, getCommand);
+            resultLength = mResult.getLength();
+            Log.i(TAG, "Received rlen : " + resultLength);
+            statusWordNew = mResult.getStatusword();
+            if (Arrays.equals(Headers.RESPONSE_GETDATA_INTERMEDIATE, statusWordNew)) {
                 gotData = new String(mResult.getPayload(), "UTF-8");
                 Log.i(TAG, "Received: " + gotData);
                 finalGotData = finalGotData + gotData;
                 Log.i(TAG, "Data transferred : " + finalGotData.length());
                 Log.i(TAG, "Time taken: " + (System.currentTimeMillis() - timeTaken));
                 Log.d(TAG, "Final data = " + finalGotData);
-
+            } else if (Arrays.equals(Headers.RESPONSE_GETDATA_FINAL, statusWordNew)) {
+                break;
             }
         }
         return finalGotData;

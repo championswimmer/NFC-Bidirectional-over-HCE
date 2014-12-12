@@ -34,7 +34,7 @@ public abstract class EmulatorService extends CardEmulationWrapperService {
     public abstract String onReceiveCommand(String command);
 
     /**
-     * Abstract method that performs the transaction
+     * Abstract method that runs on card selection
      * <p/>
      * When first contact with a device having the reader app,
      * the select command is sent.
