@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import edu.dce.nfc.libhce.EmulatorService;
+import edu.dce.nfc.libhce.common.Utils;
 
 /**
  * Created by championswimmer on 6/10/14.
@@ -14,6 +15,11 @@ public class MyService extends EmulatorService {
     @Override
     public String onReceiveCommand(String command) {
         Log.i(TAG, "onReceiveCommand called with command = " + command);
+        String actualCommand = new String(Utils.HexStringToByteArray(command));
+        Log.i(TAG, "actual command = " + actualCommand);
+        if (actualCommand.contains("somecommand")) {
+            return "someresult";
+        }
         return "DATA_BASED_ON_COMMAND";
     }
 

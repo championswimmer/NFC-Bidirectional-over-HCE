@@ -24,6 +24,7 @@ public abstract class CardEmulationWrapperService extends HostApduService {
         String s = Utils.ByteArrayToHexString(bytes);
         Log.d(TAG, "processCommandApdu : " + s);
         String commandClass = s.substring(0, Math.min(s.length(), 8));
+        Log.d(TAG, "commandClass = " + commandClass);
 
         if (commandClass.equalsIgnoreCase(Headers.HEADER_SELECT)) {
             // This is select command
@@ -35,7 +36,7 @@ public abstract class CardEmulationWrapperService extends HostApduService {
                 results = Utils.StringSplit255(onReceiveCommand(s));
                 return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_PROCESSED);
             }
-            return Utils.ConcatArrays(onCardSelect(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_OK);
+            return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_OK);
         }
 
         else if (commandClass.equalsIgnoreCase(Headers.HEADER_GETDATA)) {

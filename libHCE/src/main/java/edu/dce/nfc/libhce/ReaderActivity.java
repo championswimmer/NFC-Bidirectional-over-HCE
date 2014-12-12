@@ -89,11 +89,16 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         long timeTaken = 0;
         TransceiveResult mResult;
 
+        Log.d(TAG, "doing transactNfc with command = " + command);
+
         // Split command into 255 byte parts
         String[] commandParts = Utils.StringSplit255(command);
 
         // Keep fetching until we reach the end
         for (int i = 0; i < commandParts.length; i++) {
+            Log.d(TAG, "we are inside commandParts loop");
+            Log.d(TAG, "commandParts.length = " + commandParts.length);
+            Log.d(TAG, "commandParts = " + commandParts[i]);
             byte[] sendCommand = Headers.BuildSendDataApdu(i, commandParts[i]);
             Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(sendCommand));
             mResult = TransceiveResult.get(isoDep, sendCommand);
@@ -118,6 +123,7 @@ public abstract class ReaderActivity extends Activity implements CardReader.Read
         }
 
         while (true) {
+            Log.d(TAG, "we are inside getData loop");
             byte[] getCommand = Headers.BuildGetDataApdu();
             Log.i(TAG, "Sending: " + Utils.ByteArrayToHexString(getCommand));
             mResult = TransceiveResult.get(isoDep, getCommand);

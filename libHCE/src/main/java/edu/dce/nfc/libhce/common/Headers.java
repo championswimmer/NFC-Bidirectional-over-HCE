@@ -1,9 +1,16 @@
 package edu.dce.nfc.libhce.common;
 
+import android.util.Log;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * Created by championswimmer on 5/9/14.
  */
 public class Headers {
+    public static final String TAG = "libHCEReader";
+
     /**
      * AID for our loyalty card service.
      */
@@ -76,7 +83,10 @@ public class Headers {
             case 3: hexLength = "0" + hexLength; break;
             default: break;
         }
-        return Utils.HexStringToByteArray(Headers.HEADER_GETDATA + hexLength + command);
+        Log.d(TAG, "hexlength = " + hexLength);
+        byte[] intermediateReturn = Utils.HexStringToByteArray(Headers.HEADER_SENDCOMMAND + hexLength);
+        byte[] commandByteArray = command.getBytes();
+        return Utils.ConcatArrays(intermediateReturn, command.getBytes());
     }
 
     /**

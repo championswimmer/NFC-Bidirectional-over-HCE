@@ -41,6 +41,9 @@ public class MainActivity extends ReaderActivity {
         // Using transactNFC(command); calls
         try {
             String result = transactNfc(isoDep, "somecommand");
+            Log.d(TAG, "result = " + result);
+            result = transactNfc(isoDep, "someothercommand");
+            Log.d(TAG, "result = " + result);
         } catch (IOException e) {
             e.printStackTrace();
         }
