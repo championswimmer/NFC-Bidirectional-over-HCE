@@ -28,15 +28,23 @@ public abstract class CardEmulationWrapperService extends HostApduService {
         if (commandClass.equalsIgnoreCase(Headers.HEADER_SELECT)) {
             // This is select command
             return Utils.ConcatArrays(onCardSelect(s).getBytes(), Headers.RESPONSE_SELECT_OK);
-        } else if (commandClass.equalsIgnoreCase(Headers.HEADER_SENDCOMMAND)) {
+        }
+
+        else if (commandClass.equalsIgnoreCase(Headers.HEADER_SENDCOMMAND)) {
             if (s.contains("END_OF_COMMAND")) {
                 results = Utils.StringSplit255(onReceiveCommand(s));
-                return Utils.ConcatArrays(onCardSelect(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_PROCESSED);
+                return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_PROCESSED);
             }
             return Utils.ConcatArrays(onCardSelect(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_OK);
-        } else if (commandClass.equalsIgnoreCase(Headers.HEADER_GETDATA)) {
+        }
+
+        else if (commandClass.equalsIgnoreCase(Headers.HEADER_GETDATA)) {
 
             result = sendResultPart(results);
+            if (result.equalsIgnoreCase("END_OF_DATA")) {
+                return Utils.ConcatArrays(result.getBytes(), Headers.RESPONSE_GETDATA_FINAL);
+            }
+            return Utils.ConcatArrays(result.getBytes(), Headers.RESPONSE_GETDATA_INTERMEDIATE);
 
         }
 
