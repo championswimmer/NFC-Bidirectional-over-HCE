@@ -39,10 +39,9 @@ public class MainActivity extends ReaderActivity {
         // TODO:
         // Start sending the commands here
         // Using transactNFC(command); calls
+
         try {
-            String result = transactNfc(isoDep, "somecommand");
-            Log.d(TAG, "result = " + result);
-            result = transactNfc(isoDep, "someothercommand");
+            String result = transactNfc(isoDep, "hello");
             Log.d(TAG, "result = " + result);
         } catch (IOException e) {
             e.printStackTrace();

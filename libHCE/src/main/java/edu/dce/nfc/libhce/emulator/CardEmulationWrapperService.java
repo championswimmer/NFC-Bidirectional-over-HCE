@@ -33,6 +33,7 @@ public abstract class CardEmulationWrapperService extends HostApduService {
 
         else if (commandClass.equalsIgnoreCase(Headers.HEADER_SENDCOMMAND)) {
             if (s.contains("END_OF_COMMAND")) {
+                Log.d(TAG, "received END_OF_COMMAND");
                 results = Utils.StringSplit255(onReceiveCommand(s));
                 return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_PROCESSED);
             }
