@@ -21,8 +21,12 @@ public class MyService extends EmulatorService {
             return "someresult";
         }
         if (actualCommand.contains("hello")) {
-            return "e7tZiyLc85vA1MYFYyKMq79dwVHHFWep7XIgBohOxVxeShZesVJ2DFn1nQ5ch60n1xmQTk1ruIsvmZCbN9pyUfs4l4AVvmQkNsz2Sd3wwTsGo7b9MghZ4mHMp2T9rvhZfJKaEhOgZpoqXlW9XMGJucb3FwTTB0sdsv7L0fFlyoz4EKHrvRqyZreYA77iXqbjBuwfQ3hIJxp6Zjia3F30t7L8v4jJlJQ1Qv9Z17TJPA6tcgQjBkKaSDbJ1wYiEVs5DR9yKYoTkTEJFHjggj9Fvj7oPRpWiBP3PhUJ5wjsDiLcTGoRT9ebzX5fBOoIgUPVh1ant4juxCYn1mzhWsmNW7v8ni2LZBehRXad65xCGdwjKjoWywzt04Mlgz5rXIzXKq7CtFhSSijWAzz5";
+            return "hi there nice to met you";
         }
+        if (actualCommand.contains("lo")) {
+            return "hi there nice to met you";
+        }
+
         return "DATA_BASED_ON_COMMAND";
     }
 

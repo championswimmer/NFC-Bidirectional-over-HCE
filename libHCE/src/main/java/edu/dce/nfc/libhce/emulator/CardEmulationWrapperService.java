@@ -18,6 +18,7 @@ public abstract class CardEmulationWrapperService extends HostApduService {
     int sendCounter = 0;
     String[] results;
     String result;
+    String command = "";
 
     @Override
     public byte[] processCommandApdu(byte[] bytes, Bundle bundle) {
@@ -32,12 +33,20 @@ public abstract class CardEmulationWrapperService extends HostApduService {
         }
 
         else if (commandClass.equalsIgnoreCase(Headers.HEADER_SENDCOMMAND)) {
+            try {
+                Log.d(TAG, "catenated command  = " + new String(Utils.HexStringToByteArray(command)));
+            } catch (Exception e) {
+
+            }
+
             if (s.contains("END_OF_COMMAND")) {
                 Log.d(TAG, "received END_OF_COMMAND");
-                results = Utils.StringSplit255(onReceiveCommand(s));
-                return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_PROCESSED);
+                results = Utils.StringSplit255(onReceiveCommand(command));
+                return Utils.ConcatArrays("RESPONSE_SENDCOMMAND_PROCESSED".getBytes(), Headers.RESPONSE_SENDCOMMAND_PROCESSED);
             }
-            return Utils.ConcatArrays(onReceiveCommand(s).getBytes(), Headers.RESPONSE_SENDCOMMAND_OK);
+            command += s.substring(11);
+
+            return Utils.ConcatArrays("RESPONSE_SENDCOMMAND_OK".getBytes(), Headers.RESPONSE_SENDCOMMAND_OK);
         }
 
         else if (commandClass.equalsIgnoreCase(Headers.HEADER_GETDATA)) {
